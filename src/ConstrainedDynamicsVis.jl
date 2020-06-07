@@ -5,7 +5,7 @@ using ConstrainedDynamics: Shape, vrotate
 
 using Rotations
 using CoordinateTransformations
-using GeometryTypes: GeometryTypes, Vec, Point, GLUVMesh
+using GeometryBasics: Vec, Point, GLUVMesh
 using Blink
 using Colors: RGBA, RGB
 using FileIO, MeshIO
