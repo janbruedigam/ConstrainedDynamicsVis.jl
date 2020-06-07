@@ -1,6 +1,6 @@
-function visualize(mechanism::Mechanism, storage::Storage{T,N}, shapes::Vector{<:Shape}) where {T,N}
+function visualize(mechanism::Mechanism, storage::Storage{T,N}, shapes::Vector{<:Shape}; usebrowser::Bool = false) where {T,N}
     vis = Visualizer()
-    open(vis, Blink.Window())
+    usebrowser ? open(vis) : open(vis, Blink.Window())
 
     storage = deepcopy(storage)
     steps = Base.OneTo(N)
