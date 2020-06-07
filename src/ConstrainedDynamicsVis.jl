@@ -1,7 +1,9 @@
 module ConstrainedDynamicsVis
 
 using ConstrainedDynamics
+using ConstrainedDynamics: Shape, vrotate
 
+using Rotations
 using CoordinateTransformations
 using GeometryTypes: GeometryTypes, Vec, Point, GLUVMesh
 using Blink
@@ -9,7 +11,7 @@ using Colors: RGBA, RGB
 using FileIO, MeshIO
 using MeshCat
 
-export visualize2
+export visualize
 
 
 

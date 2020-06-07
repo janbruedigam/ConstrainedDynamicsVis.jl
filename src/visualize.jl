@@ -1,4 +1,4 @@
-function visualize2(mechanism::Mechanism, storage::Storage{T,N}, shapes::Vector{<:Shape}) where {T,N}
+function visualize(mechanism::Mechanism, storage::Storage{T,N}, shapes::Vector{<:Shape}) where {T,N}
     vis = Visualizer()
     open(vis, Blink.Window())
 
@@ -14,12 +14,12 @@ function visualize2(mechanism::Mechanism, storage::Storage{T,N}, shapes::Vector{
                     storage.x[id][i] += vrotate(shape.xoff, storage.q[id][i])
                     storage.q[id][i] *= shape.qoff
                 end
-                visshape = convertshape2(shape)
+                visshape = convertshape(shape)
                 setobject!(vis["bundle/visshape"*string(id)], visshape, MeshPhongMaterial(color=shape.color))
             else
                 @assert id == oid
                 oshapeind = ind
-                visshape = convertshape2(shape)
+                visshape = convertshape(shape)
                 setobject!(vis["bundle/visshape"*string(id)], visshape, MeshPhongMaterial(color=shape.color))
             end
         end
