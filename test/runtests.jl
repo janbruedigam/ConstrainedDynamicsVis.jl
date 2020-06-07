@@ -1,6 +1,11 @@
-using ConstrainedDynamicsVis
 using Test
+using SafeTestsets
 
-@testset "ConstrainedDynamicsVis.jl" begin
-    # Write your tests here.
+
+@safetestset "Preparation Test" begin
+    include("preparation_test.jl")
+end
+
+@safetestset "Visualization Test" begin
+    include("visualization_test.jl")
 end
