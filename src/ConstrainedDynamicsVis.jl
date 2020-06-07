@@ -5,7 +5,7 @@ using ConstrainedDynamics: Shape, vrotate
 
 using Rotations
 using CoordinateTransformations
-using GeometryBasics: Vec, Point
+using GeometryBasics: GeometryBasics, Vec, Point
 using Blink
 using MeshCat
 
