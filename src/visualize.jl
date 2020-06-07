@@ -1,12 +1,5 @@
-function visualize(mechanism::Mechanism, storage::Storage{T,N}, shapes::Vector{<:Shape}; usebrowser::Bool = false) where {T,N}
-    vis = Visualizer()
-    usebrowser ? open(vis) : open(vis, Blink.Window())
-
-    storage = deepcopy(storage)
-    steps = Base.OneTo(N)
-    oid = mechanism.origin.id
+function preparevisualize!(storage, shapes, visualizer, steps, originid)
     oshapeind = 0
-
     for (ind,shape) in enumerate(shapes)
         for id in shape.bodyids
             if id >= 0
@@ -14,24 +7,34 @@ function visualize(mechanism::Mechanism, storage::Storage{T,N}, shapes::Vector{<
                     storage.x[id][i] += vrotate(shape.xoff, storage.q[id][i])
                     storage.q[id][i] *= shape.qoff
                 end
-                visshape = convertshape(shape)
-                setobject!(vis["bundle/visshape"*string(id)], visshape, MeshPhongMaterial(color=shape.color))
             else
-                @assert id == oid
+                @assert id == originid
                 oshapeind = ind
-                visshape = convertshape(shape)
-                setobject!(vis["bundle/visshape"*string(id)], visshape, MeshPhongMaterial(color=shape.color))
             end
+            visshape = convertshape(shape)
+            setobject!(visualizer["bundle/visshape"*string(id)], visshape, MeshPhongMaterial(color=shape.color))
         end
     end
 
-    framerate = Int64(round(1/mechanism.Δt))
-    anim = MeshCat.Animation(Dict{MeshCat.SceneTrees.Path,MeshCat.AnimationClip}(), framerate)
+    return oshapeind
+end
 
+function visualize(mechanism::Mechanism, storage::Storage{T,N}, shapes::Vector{<:Shape}; usebrowser::Bool = false) where {T,N}
+    vis = Visualizer()
+    usebrowser ? open(vis) : open(vis, Blink.Window())
+
+    storage = deepcopy(storage)
+    steps = Base.OneTo(N)
     bodies = mechanism.bodies
+    oid = mechanism.origin.id
+    
+    oshapeind = preparevisualize!(storage, shapes, vis, steps, oid)
+
+    framerate = Int64(round(1/mechanism.Δt))
+    animation = Animation(Dict{MeshCat.SceneTrees.Path,MeshCat.AnimationClip}(), framerate)  
 
     for k = steps
-        MeshCat.atframe(anim, k) do
+        atframe(animation, k) do
             for (id,body) in pairs(bodies)
                 settransform!(vis["bundle/visshape"*string(id)], compose(Translation((storage.x[id][k])...),LinearMap(UnitQuaternion((storage.q[id][k])...))))
             end
@@ -42,7 +45,7 @@ function visualize(mechanism::Mechanism, storage::Storage{T,N}, shapes::Vector{<
         end
     end
 
-    MeshCat.setanimation!(vis, anim)
+    setanimation!(vis, animation)
     return
 end
 
