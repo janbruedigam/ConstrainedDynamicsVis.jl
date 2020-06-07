@@ -14,5 +14,6 @@ function convertshape(sphere::ConstrainedDynamics.Sphere)
 end
 
 function convertshape(mesh::ConstrainedDynamics.Mesh)
-    return shape = load(mesh.path, GLUVMesh)
+    # return shape = load(mesh.path, GLUVMesh)
+    return MeshCat.MeshFileGeometry(mesh.path)
 end
