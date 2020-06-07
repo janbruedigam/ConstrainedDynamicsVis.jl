@@ -1,11 +1,13 @@
 using ConstrainedDynamics
+using ConstrainedDynamicsVis
 using Rotations
+using MeshCat: Visualizer
 
 
 box = Box(rand(4)...; color = RGBA(rand(3)...), xoff = rand(3), qoff = Quaternion(rand(RotMatrix{3})))
 cylinder = Cylinder(rand(3)...; color = RGBA(rand(3)...), xoff = rand(3), qoff = Quaternion(rand(RotMatrix{3})))
 sphere = Sphere(rand(2)...; color = RGBA(rand(3)...), xoff = rand(3), qoff = Quaternion(rand(RotMatrix{3})))
-mesh = ("test.obj", rand(), rand(3,3); color = RGBA(rand(3)...), xoff = rand(3), qoff = Quaternion(rand(RotMatrix{3})))
+mesh = Mesh("test.obj", rand(), rand(3,3); color = RGBA(rand(3)...), xoff = rand(3), qoff = Quaternion(rand(RotMatrix{3})))
 
 
 originbox = Origin{Float64}()
@@ -33,7 +35,7 @@ shapesmesh = [mesh]
 mechbox = Mechanism(originbox, [linkbox], shapes = shapesbox)
 mechcylinder = Mechanism(origincylinder, [linkcylinder], shapes = shapescylinder)
 mechsphere = Mechanism(originsphere, [linksphere], shapes = shapessphere)
-mechbox = Mechanism(originbox, [linkbox], shapes = shapesbox)
+mechmesh = Mechanism(originmesh, [linkmesh], shapes = shapesmesh)
 
 steps = Base.OneTo(10)
 storagebox = simulate!(mechbox, 0.1, record = true)
@@ -46,12 +48,12 @@ viscylinder = Visualizer()
 vissphere = Visualizer()
 vismesh = Visualizer()
 
-preparevisualize!(storagebox, shapesbox, visbox, steps, originbox.id)
+ConstrainedDynamicsVis.preparevisualize!(storagebox, shapesbox, visbox, steps, originbox.id)
 @test true
-preparevisualize!(storagecylinder, shapescylinder, viscylinder, steps, origincylinder.id)
+ConstrainedDynamicsVis.preparevisualize!(storagecylinder, shapescylinder, viscylinder, steps, origincylinder.id)
 @test true
-preparevisualize!(storagesphere, shapessphere, vissphere, steps, originsphere.id)
+ConstrainedDynamicsVis.preparevisualize!(storagesphere, shapessphere, vissphere, steps, originsphere.id)
 @test true
-preparevisualize!(storagemesh, shapesmesh, vismesh, steps, originmesh.id)
+ConstrainedDynamicsVis.preparevisualize!(storagemesh, shapesmesh, vismesh, steps, originmesh.id)
 @test true
 
