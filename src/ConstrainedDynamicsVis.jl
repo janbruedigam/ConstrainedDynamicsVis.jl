@@ -10,7 +10,8 @@ using GeometryTypes: GeometryTypes, Vec, Point
 using Blink
 using MeshCat
 
-export visualize
+export visualize,
+    convertvideo
 
 
 

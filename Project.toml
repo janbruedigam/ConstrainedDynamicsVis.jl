@@ -21,8 +21,9 @@ Rotations = "<1.0.1, 1.0.1"
 julia = "1.0, 1.4"
 
 [extras]
+MeshCat = "283c5d60-a78f-5afe-a0af-af636b173e11"
 SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test", "SafeTestsets"]
+test = ["Test", "MeshCat", "SafeTestsets"]
