@@ -3,10 +3,10 @@ using ConstrainedDynamicsVis
 using Rotations
 
 
-box = Box(rand(4)...; color = RGBA(rand(3)...), xoff = rand(3), qoff = Quaternion(rand(RotMatrix{3})))
-cylinder = Cylinder(rand(3)...; color = RGBA(rand(3)...), xoff = rand(3), qoff = Quaternion(rand(RotMatrix{3})))
-sphere = Sphere(rand(2)...; color = RGBA(rand(3)...), xoff = rand(3), qoff = Quaternion(rand(RotMatrix{3})))
-mesh = Mesh("test_files/test.obj", rand(), rand(3,3); color = RGBA(rand(3)...), xoff = rand(3), qoff = Quaternion(rand(RotMatrix{3})))
+box = Box(rand(4)...; color = RGBA(rand(3)...), xoff = rand(3), qoff = rand(UnitQuaternion))
+cylinder = Cylinder(rand(3)...; color = RGBA(rand(3)...), xoff = rand(3), qoff = rand(UnitQuaternion))
+sphere = Sphere(rand(2)...; color = RGBA(rand(3)...), xoff = rand(3), qoff = rand(UnitQuaternion))
+mesh = Mesh("test_files/test.obj", rand(), rand(3,3); color = RGBA(rand(3)...), xoff = rand(3), qoff = rand(UnitQuaternion))
 
 
 originbox = Origin{Float64}()
