@@ -12,18 +12,22 @@ mesh = Mesh("test_files/test.obj", rand(), rand(3,3); color = RGBA(rand(3)...), 
 
 originbox = Origin{Float64}()
 linkbox = Body(box)
+nonmechbox = Body(box)
 push!(box.bodyids,originbox.id)
 
 origincylinder = Origin{Float64}()
 linkcylinder = Body(cylinder)
+nonmechcylinder = Body(cylinder)
 push!(cylinder.bodyids,origincylinder.id)
 
 originsphere = Origin{Float64}()
 linksphere = Body(sphere)
+nonmechsphere = Body(sphere)
 push!(sphere.bodyids,originsphere.id)
 
 originmesh = Origin{Float64}()
 linkmesh = Body(mesh)
+nonmechmesh = Body(mesh)
 push!(mesh.bodyids,originmesh.id)
 
 shapesbox = [box]
@@ -48,12 +52,12 @@ viscylinder = Visualizer()
 vissphere = Visualizer()
 vismesh = Visualizer()
 
-ConstrainedDynamicsVis.preparevisualize!(storagebox, shapesbox, visbox, steps, originbox.id)
+ConstrainedDynamicsVis.preparevisualize!(storagebox, shapesbox, visbox, steps, getid.(mechbox.bodies), originbox.id)
 @test true
-ConstrainedDynamicsVis.preparevisualize!(storagecylinder, shapescylinder, viscylinder, steps, origincylinder.id)
+ConstrainedDynamicsVis.preparevisualize!(storagecylinder, shapescylinder, viscylinder, steps, getid.(mechcylinder.bodies), origincylinder.id)
 @test true
-ConstrainedDynamicsVis.preparevisualize!(storagesphere, shapessphere, vissphere, steps, originsphere.id)
+ConstrainedDynamicsVis.preparevisualize!(storagesphere, shapessphere, vissphere, steps, getid.(mechsphere.bodies), originsphere.id)
 @test true
-ConstrainedDynamicsVis.preparevisualize!(storagemesh, shapesmesh, vismesh, steps, originmesh.id)
+ConstrainedDynamicsVis.preparevisualize!(storagemesh, shapesmesh, vismesh, steps, getid.(mechmesh.bodies), originmesh.id)
 @test true
 
