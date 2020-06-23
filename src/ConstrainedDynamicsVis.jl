@@ -1,7 +1,7 @@
 module ConstrainedDynamicsVis
 
 using ConstrainedDynamics
-using ConstrainedDynamics: Shape, vrotate
+using ConstrainedDynamics: Shape, vrotate, getid
 
 using Rotations
 using CoordinateTransformations

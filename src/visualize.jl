@@ -1,15 +1,16 @@
-function preparevisualize!(storage, shapes, visualizer, steps, originid)
+function preparevisualize!(storage, shapes, visualizer, steps, bodyids, originid)
     oshapeind = 0
     for (ind,shape) in enumerate(shapes)
         for id in shape.bodyids
-            if id >= 0
+            if id ∈ bodyids
                 for i in steps
                     storage.x[id][i] += vrotate(shape.xoff, storage.q[id][i])
                     storage.q[id][i] *= shape.qoff
                 end
-            else
-                @assert id == originid
+            elseif id == originid
                 oshapeind = ind
+            else
+                continue
             end
             visshape = convertshape(shape)
             setobject!(visualizer["bundle/visshape"*string(id)], visshape, MeshPhongMaterial(color=shape.color))
@@ -28,7 +29,7 @@ function visualize(mechanism::Mechanism, storage::Storage{T,N}, shapes::Vector{<
     bodies = mechanism.bodies
     oid = mechanism.origin.id
     
-    oshapeind = preparevisualize!(storage, shapes, vis, steps, oid)
+    oshapeind = preparevisualize!(storage, shapes, vis, steps, getid.(bodies), oid)
 
     framerate = Int64(round(1/mechanism.Δt))
     animation = Animation(Dict{MeshCat.SceneTrees.Path,MeshCat.AnimationClip}(), framerate)  
