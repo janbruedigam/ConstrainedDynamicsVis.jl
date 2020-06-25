@@ -19,10 +19,10 @@ linkcylinder = Body(cylinder)
 nonmechcylinder = Body(cylinder)
 push!(cylinder.bodyids,origincylinder.id)
 
-originsphere = Origin{Float64}()
-linksphere = Body(sphere)
-nonmechsphere = Body(sphere)
-push!(sphere.bodyids,originsphere.id)
+# originsphere = Origin{Float64}()
+# linksphere = Body(sphere)
+# nonmechsphere = Body(sphere)
+# push!(sphere.bodyids,originsphere.id)
 
 originmesh = Origin{Float64}()
 linkmesh = Body(mesh)
@@ -37,11 +37,11 @@ shapesmesh = [mesh]
 
 mechbox = Mechanism(originbox, [linkbox], shapes = shapesbox)
 mechcylinder = Mechanism(origincylinder, [linkcylinder], shapes = shapescylinder)
-mechsphere = Mechanism(originsphere, [linksphere], shapes = shapessphere)
+# mechsphere = Mechanism(originsphere, [linksphere], shapes = shapessphere)
 mechmesh = Mechanism(originmesh, [linkmesh], shapes = shapesmesh)
 
 steps = Base.OneTo(10)
 storagebox = simulate!(mechbox, 0.1, record = true)
 storagecylinder = simulate!(mechcylinder, 0.1, record = true)
-storagesphere = simulate!(mechsphere, 0.1, record = true)
+# storagesphere = simulate!(mechsphere, 0.1, record = true)
 storagemesh = simulate!(mechmesh, 0.1, record = true)
