@@ -4,8 +4,8 @@ function preparevisualize!(storage, shapes, visualizer, steps, bodyids, originid
         for id in shape.bodyids
             if id ∈ bodyids
                 for i in steps
-                    storage.x[id][i] += vrotate(shape.xoff, storage.q[id][i])
-                    storage.q[id][i] *= shape.qoff
+                    storage.x[id][i] += vrotate(shape.xoffset, storage.q[id][i])
+                    storage.q[id][i] *= shape.qoffset
                 end
             elseif id == originid
                 oshapeind = ind
@@ -41,7 +41,7 @@ function visualize(mechanism::Mechanism, storage::Storage{T,N}, shapes::Vector{<
             end
             if oshapeind > 0
                 shape = shapes[oshapeind]
-                settransform!(vis["bundle/visshape"*string(oid)], compose(Translation((shape.xoff)...),LinearMap(UnitQuaternion((shape.qoff)...))))
+                settransform!(vis["bundle/visshape"*string(oid)], compose(Translation((shape.xoffset)...),LinearMap(UnitQuaternion((shape.qoffset)...))))
             end
         end
     end

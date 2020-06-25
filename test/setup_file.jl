@@ -3,10 +3,10 @@ using ConstrainedDynamicsVis
 using Rotations
 using MeshCat: Visualizer
 
-box = Box(rand(4)...; color = RGBA(rand(4)...), xoff = rand(3), qoff = rand(UnitQuaternion))
-cylinder = Cylinder(rand(3)...; color = RGBA(rand(4)...), xoff = rand(3), qoff = rand(UnitQuaternion))
-sphere = Sphere(rand(2)...; color = RGBA(rand(4)...), xoff = rand(3), qoff = rand(UnitQuaternion))
-mesh = Mesh("test_files/test.obj", rand(), rand(3,3); color = RGBA(rand(4)...), xoff = rand(3), qoff = rand(UnitQuaternion))
+box = Box(rand(4)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(UnitQuaternion))
+cylinder = Cylinder(rand(3)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(UnitQuaternion))
+sphere = Sphere(rand(2)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(UnitQuaternion))
+mesh = Mesh("test_files/test.obj", rand(), rand(3,3); color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(UnitQuaternion))
 
 
 originbox = Origin{Float64}()
