@@ -1,7 +1,7 @@
 name = "ConstrainedDynamicsVis"
 uuid = "07ee0992-da0a-4409-aa8f-e0a0c9c09c30"
 authors = ["Jan Bruedigam"]
-version = "0.1.4"
+version = "0.1.5"
 
 [deps]
 Blink = "ad839575-38b3-5650-b840-f874b8c74a25"
@@ -13,7 +13,7 @@ Rotations = "6038ab10-8711-5258-84ad-4b1120ba62dc"
 
 [compat]
 Blink = "<0.12.3, 0.12.3"
-ConstrainedDynamics = "0.3.0, 0.4.0, 0.4.2"
+ConstrainedDynamics = "0.4.3"
 CoordinateTransformations = "<0.6.0, 0.6.0"
 GeometryTypes = "<0.8.3, 0.8.3"
 MeshCat = "<0.11.2, 0.11.2"
