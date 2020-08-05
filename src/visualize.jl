@@ -20,7 +20,7 @@ function preparevisualize!(storage, shapes, visualizer, steps, bodyids, originid
     return oshapeind
 end
 
-function visualize(mechanism::Mechanism, storage::Storage{T,N}, shapes::Vector{<:Shape}; usebrowser::Bool = false) where {T,N}
+function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}, shapes::Vector{<:Shape}; usebrowser::Bool = false) where {T,N}
     vis = Visualizer()
     usebrowser ? open(vis) : open(vis, Blink.Window())
 
