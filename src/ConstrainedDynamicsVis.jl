@@ -5,8 +5,8 @@ using ConstrainedDynamics: AbstractMechanism, Shape, vrotate, getid
 
 using Rotations
 using CoordinateTransformations
-# using GeometryBasics: GeometryBasics, Vec, Point
-using GeometryTypes: GeometryTypes, Vec, Point
+using GeometryBasics: GeometryBasics, Vec, Point
+# using GeometryTypes: GeometryTypes, Vec, Point
 using Blink
 using MeshCat
 
