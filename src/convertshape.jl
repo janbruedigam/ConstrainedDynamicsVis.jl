@@ -16,3 +16,7 @@ end
 function convertshape(mesh::ConstrainedDynamics.Mesh)
     return MeshCat.MeshFileGeometry(mesh.path)
 end
+
+function convertshape(::ConstrainedDynamics.EmptyShape)
+    return nothing
+end

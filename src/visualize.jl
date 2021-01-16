@@ -36,17 +36,19 @@ function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}; usebrows
 
     for (id,body) in enumerate(bodies)
         shape = body.shape
-        subvis = vis["bundle/visshape"*string(id)]
         visshape = convertshape(shape)
-        setobject!(subvis, visshape, MeshPhongMaterial(color=shape.color))
-        preparebodyvis!(storage, id, shape, animation, subvis)
+        if visshape !== nothing
+            subvis = vis["bundle/visshape"*string(id)]
+            setobject!(subvis, visshape, MeshPhongMaterial(color=shape.color))
+            preparebodyvis!(storage, id, shape, animation, subvis)
+        end
     end
 
-    if !(typeof(origin.shape) <: ConstrainedDynamics.EmptyShape)
-        id = origin.id
-        shape = origin.shape
+    id = origin.id
+    shape = origin.shape
+    visshape = convertshape(shape)
+    if visshape !== nothing
         subvis = vis["bundle/visshape"*string(id)]
-        visshape = convertshape(shape)
         setobject!(subvis, visshape, MeshPhongMaterial(color=shape.color))
         prepareoriginvis!(storage, shape, animation, subvis)
     end
