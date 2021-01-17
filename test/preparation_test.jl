@@ -1,6 +1,7 @@
 visbox = MeshCat.Visualizer()
 viscylinder = MeshCat.Visualizer()
 vissphere = MeshCat.Visualizer()
+vispyramid = MeshCat.Visualizer()
 vismesh = MeshCat.Visualizer()
 
 animation = MeshCat.Animation(Dict{MeshCat.SceneTrees.Path,MeshCat.AnimationClip}(), 1)
@@ -13,6 +14,9 @@ ConstrainedDynamicsVis.prepareoriginvis!(storagecylinder, origincylinder.shape, 
 @test true
 ConstrainedDynamicsVis.preparebodyvis!(storagesphere, 1, linksphere.shape, animation, vissphere["bundle/bodyshape"])
 ConstrainedDynamicsVis.prepareoriginvis!(storagesphere, originsphere.shape, animation, vissphere["bundle/originshape"])
+@test true
+ConstrainedDynamicsVis.preparebodyvis!(storagepyramid, 1, linkpyramid.shape, animation, vispyramid["bundle/bodyshape"])
+ConstrainedDynamicsVis.prepareoriginvis!(storagepyramid, originpyramid.shape, animation, vispyramid["bundle/originshape"])
 @test true
 ConstrainedDynamicsVis.preparebodyvis!(storagemesh, 1, linkmesh.shape, animation, vismesh["bundle/bodyshape"])
 ConstrainedDynamicsVis.prepareoriginvis!(storagemesh, originmesh.shape, animation, vismesh["bundle/originshape"])
