@@ -1,49 +1,56 @@
-function preparevisualize!(storage, shapes, visualizer, steps, bodyids, originid)
-    oshapeind = 0
-    for (ind,shape) in enumerate(shapes)
-        for id in shape.bodyids
-            if id ∈ bodyids
-                for i in steps
-                    storage.x[id][i] += vrotate(shape.xoffset, storage.q[id][i])
-                    storage.q[id][i] *= shape.qoffset
-                end
-            elseif id == originid
-                oshapeind = ind
-            else
-                continue
-            end
-            visshape = convertshape(shape)
-            setobject!(visualizer["bundle/visshape"*string(id)], visshape, MeshPhongMaterial(color=shape.color))
+function preparebodyvis!(storage::Storage{T,N}, id, shape, animation, visualizer) where {T,N}
+    for i=1:N
+        storage.x[id][i] += vrotate(shape.xoffset, storage.q[id][i])
+        storage.q[id][i] *= shape.qoffset
+
+        composition = compose(Translation(storage.x[id][i]),LinearMap(storage.q[id][i]))
+        atframe(animation, i) do
+            settransform!(visualizer, composition)
         end
     end
 
-    return oshapeind
+    return
 end
 
-function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}, shapes::Vector{<:Shape}; usebrowser::Bool = false) where {T,N}
+function prepareoriginvis!(::Storage{T,N}, shape, animation, visualizer) where {T,N}
+    composition = compose(Translation(shape.xoffset),LinearMap(shape.qoffset))
+    for i=1:N
+        atframe(animation, i) do
+            settransform!(visualizer, composition)
+        end
+    end
+
+    return
+end
+
+function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}; usebrowser::Bool = false) where {T,N}
+    storage = deepcopy(storage) 
+    bodies = mechanism.bodies
+    origin = mechanism.origin
+    
     vis = Visualizer()
     usebrowser ? open(vis) : open(vis, Blink.Window())
-
-    storage = deepcopy(storage)
-    steps = Base.OneTo(N)
-    bodies = mechanism.bodies
-    oid = mechanism.origin.id
-    
-    oshapeind = preparevisualize!(storage, shapes, vis, steps, getid.(bodies), oid)
 
     framerate = Int64(round(1/mechanism.Δt))
     animation = Animation(Dict{MeshCat.SceneTrees.Path,MeshCat.AnimationClip}(), framerate)  
 
-    for k = steps
-        atframe(animation, k) do
-            for (id,body) in pairs(bodies)
-                settransform!(vis["bundle/visshape"*string(id)], compose(Translation((storage.x[id][k])...),LinearMap(UnitQuaternion((storage.q[id][k])...))))
-            end
-            if oshapeind > 0
-                shape = shapes[oshapeind]
-                settransform!(vis["bundle/visshape"*string(oid)], compose(Translation((shape.xoffset)...),LinearMap(UnitQuaternion((shape.qoffset)...))))
-            end
+    for (id,body) in enumerate(bodies)
+        shape = body.shape
+        visshape = convertshape(shape)
+        if visshape !== nothing
+            subvis = vis["bundle/visshape"*string(id)]
+            setobject!(subvis, visshape, MeshPhongMaterial(color=shape.color))
+            preparebodyvis!(storage, id, shape, animation, subvis)
         end
+    end
+
+    id = origin.id
+    shape = origin.shape
+    visshape = convertshape(shape)
+    if visshape !== nothing
+        subvis = vis["bundle/visshape"*string(id)]
+        setobject!(subvis, visshape, MeshPhongMaterial(color=shape.color))
+        prepareoriginvis!(storage, shape, animation, subvis)
     end
 
     setanimation!(vis, animation)

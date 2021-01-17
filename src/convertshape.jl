@@ -13,6 +13,15 @@ function convertshape(sphere::ConstrainedDynamics.Sphere)
     return GeometryBasics.Sphere(Point(0.0,0.0,0.0), r)
 end
 
+function convertshape(pyramid::ConstrainedDynamics.Pyramid)
+    w, h = Tuple(pyramid.wh)
+    return GeometryBasics.Pyramid(Point(0.0,0.0,-h/4), h, w)
+end
+
 function convertshape(mesh::ConstrainedDynamics.Mesh)
     return MeshCat.MeshFileGeometry(mesh.path)
+end
+
+function convertshape(::ConstrainedDynamics.EmptyShape)
+    return nothing
 end
