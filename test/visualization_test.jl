@@ -1,23 +1,23 @@
 if haskey(ENV,"RUNNER_OS") && !occursin("linux", lowercase(ENV["RUNNER_OS"]))
-    ConstrainedDynamicsVis.visualize(mechbox, storagebox; usebrowser = false)
+    ConstrainedDynamicsVis.visualize(mechbox, storagebox; showframes = true, env = "editor")
     @test true
-    ConstrainedDynamicsVis.visualize(mechcylinder, storagecylinder; usebrowser = false)
+    ConstrainedDynamicsVis.visualize(mechcylinder, storagecylinder; showframes = true, env = "editor")
     @test true
-    ConstrainedDynamicsVis.visualize(mechsphere, storagesphere; usebrowser = false)
+    ConstrainedDynamicsVis.visualize(mechsphere, storagesphere; showframes = true, env = "editor")
     @test true
-    ConstrainedDynamicsVis.visualize(mechpyramid, storagepyramid; usebrowser = false)
+    ConstrainedDynamicsVis.visualize(mechpyramid, storagepyramid; showframes = true, env = "editor")
     @test true
-    ConstrainedDynamicsVis.visualize(mechmesh, storagemesh; usebrowser = false)
+    ConstrainedDynamicsVis.visualize(mechmesh, storagemesh; showframes = true, env = "editor")
     @test true
 end
 
-ConstrainedDynamicsVis.visualize(mechbox, storagebox; usebrowser = true)
+ConstrainedDynamicsVis.visualize(mechbox, storagebox; showframes = true, env = "browser")
 @test true
-ConstrainedDynamicsVis.visualize(mechcylinder, storagecylinder; usebrowser = true)
+ConstrainedDynamicsVis.visualize(mechcylinder, storagecylinder; showframes = true, env = "browser")
 @test true
-ConstrainedDynamicsVis.visualize(mechsphere, storagesphere; usebrowser = true)
+ConstrainedDynamicsVis.visualize(mechsphere, storagesphere; showframes = true, env = "browser")
 @test true
-ConstrainedDynamicsVis.visualize(mechpyramid, storagepyramid; usebrowser = true)
+ConstrainedDynamicsVis.visualize(mechpyramid, storagepyramid; showframes = true, env = "browser")
 @test true
-ConstrainedDynamicsVis.visualize(mechmesh, storagemesh; usebrowser = true)
+ConstrainedDynamicsVis.visualize(mechmesh, storagemesh; showframes = true, env = "browser")
 @test true
