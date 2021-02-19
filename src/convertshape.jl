@@ -18,9 +18,6 @@ function convertshape(pyramid::ConstrainedDynamics.Pyramid)
     return GeometryBasics.Pyramid(Point(0.0,0.0,-h/4), h, w)
 end
 
-function convertshape(mesh::ConstrainedDynamics.Mesh)
-    return MeshCat.MeshFileGeometry(mesh.path)
-end
 
 function convertshape(mesh::ConstrainedDynamics.Mesh)
 
