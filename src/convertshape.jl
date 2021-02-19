@@ -28,7 +28,7 @@ function convertshape(mesh::ConstrainedDynamics.Mesh)
         if length(line) > 2 && line[1] == 'v' && line[2] == ' '
             triplet = replace(line, r"[ ]+" =>  " ")
             number_strings = split(triplet, " ")
-    
+            
             num1 = parse(Float64, number_strings[2]) * mesh.scale[1]
             num2 = parse(Float64, number_strings[3]) * mesh.scale[2]
             num3 = parse(Float64, number_strings[4]) * mesh.scale[3]
@@ -37,7 +37,7 @@ function convertshape(mesh::ConstrainedDynamics.Mesh)
         end
     end
     new_contents = join(lines, "\n")
-    return MeshFileGeometry(mesh.path, new_contents)
+    return MeshFileGeometry(new_contents, "obj")
 end
 
 function convertshape(::ConstrainedDynamics.EmptyShape)
