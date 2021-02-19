@@ -22,6 +22,27 @@ function convertshape(mesh::ConstrainedDynamics.Mesh)
     return MeshCat.MeshFileGeometry(mesh.path)
 end
 
+function convertshape(mesh::ConstrainedDynamics.Mesh, scale)
+
+    # apply scaling to geom.contents
+    geom = MeshCat.MeshFileGeometry(mesh.path)
+    lines = split(geom.contents, "\n")
+    for (index, line) in enumerate(lines)
+        if length(line) > 2 && line[1] == 'v' && line[2] == ' '
+            triplet = replace(line, r"[ ]+" =>  " ")
+            number_strings = split(triplet, " ")
+    
+            num1 = parse(Float64, number_strings[2]) * scale
+            num2 = parse(Float64, number_strings[3]) * scale
+            num3 = parse(Float64, number_strings[4]) * scale
+    
+            lines[index] = "v $(num1) $(num2) $(num3)"
+        end
+    end
+    new_contents = join(lines, "\n")
+    return MeshFileGeometry(mesh.path, new_contents)
+end
+
 function convertshape(::ConstrainedDynamics.EmptyShape)
     return nothing
 end
