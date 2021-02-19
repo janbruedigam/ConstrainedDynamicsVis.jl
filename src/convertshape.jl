@@ -22,7 +22,7 @@ function convertshape(mesh::ConstrainedDynamics.Mesh)
     return MeshCat.MeshFileGeometry(mesh.path)
 end
 
-function convertshape(mesh::ConstrainedDynamics.Mesh, scale)
+function convertshape(mesh::ConstrainedDynamics.Mesh)
 
     # apply scaling to geom.contents
     geom = MeshCat.MeshFileGeometry(mesh.path)
@@ -32,9 +32,9 @@ function convertshape(mesh::ConstrainedDynamics.Mesh, scale)
             triplet = replace(line, r"[ ]+" =>  " ")
             number_strings = split(triplet, " ")
     
-            num1 = parse(Float64, number_strings[2]) * scale
-            num2 = parse(Float64, number_strings[3]) * scale
-            num3 = parse(Float64, number_strings[4]) * scale
+            num1 = parse(Float64, number_strings[2]) * mesh.scale[1]
+            num2 = parse(Float64, number_strings[3]) * mesh.scale[2]
+            num3 = parse(Float64, number_strings[4]) * mesh.scale[3]
     
             lines[index] = "v $(num1) $(num2) $(num3)"
         end
