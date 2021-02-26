@@ -20,24 +20,11 @@ end
 
 
 function convertshape(mesh::ConstrainedDynamics.Mesh)
-
-    # apply scaling to geom.contents
-    geom = MeshCat.MeshFileGeometry(mesh.path)
-    lines = split(geom.contents, "\n")
-    for (index, line) in enumerate(lines)
-        if length(line) > 2 && line[1] == 'v' && line[2] == ' '
-            triplet = replace(line, r"[ ]+" =>  " ")
-            number_strings = split(triplet, " ")
-    
-            num1 = parse(Float64, number_strings[2]) * mesh.scale[1]
-            num2 = parse(Float64, number_strings[3]) * mesh.scale[2]
-            num3 = parse(Float64, number_strings[4]) * mesh.scale[3]
-    
-            lines[index] = "v $(num1) $(num2) $(num3)"
-        end
+    obj = MeshFileObject(mesh.path)
+    if obj.mtl_library == "" # no material file (mtl) available -> render as geometry with uniform color
+        return MeshFileGeometry(obj.contents, obj.format)
     end
-    new_contents = join(lines, "\n")
-    return MeshFileGeometry(mesh.path, new_contents)
+    return obj
 end
 
 function convertshape(::ConstrainedDynamics.EmptyShape)

@@ -56,7 +56,15 @@ function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}; env::Str
         showshape = false
         if visshape !== nothing
             subvisshape = vis["bodies/body:"*string(id)]
-            setobject!(subvisshape, visshape, MeshPhongMaterial(color=shape.color))
+            if typeof(visshape) <: MeshFileObject
+                setobject!(subvisshape, visshape)
+            else
+                setobject!(subvisshape, visshape, MeshPhongMaterial(color=shape.color))
+            end
+            if typeof(shape) <: ConstrainedDynamics.Mesh
+                scale_transform = LinearMap([shape.scale[1] 0 0;0 shape.scale[2] 0;0 0 shape.scale[3]])
+                settransform!(subvisshape, scale_transform)
+            end
             showshape = true
         end
         if showframes
@@ -71,9 +79,19 @@ function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}; env::Str
     visshape = convertshape(shape)
     if visshape !== nothing
         subvisshape = vis["bodies/origin:"*string(id)]
-        setobject!(subvisshape, visshape, MeshPhongMaterial(color=shape.color))
-        composition = compose(Translation(shape.xoffset),LinearMap(shape.qoffset))
-        settransform!(subvisshape, composition)
+        if typeof(visshape) <: MeshFileObject
+            setobject!(subvisshape, visshape)
+        else
+            setobject!(subvisshape, visshape, MeshPhongMaterial(color=shape.color))
+        end
+        if typeof(shape) <: ConstrainedDynamics.Mesh
+            scale_transform = LinearMap([shape.scale[1] 0 0;0 shape.scale[2] 0;0 0 shape.scale[3]]) 
+            transform = compose(Translation(shape.xoffset),compose(LinearMap(shape.qoffset), scale_transform))
+        else    
+            transform = compose(Translation(shape.xoffset),LinearMap(shape.qoffset))
+        end
+        
+        settransform!(subvisshape, transform)
     end
     if showframes
         subvisframe = vis["frames/origin:"*string(id)]
