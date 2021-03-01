@@ -18,8 +18,13 @@ function convertshape(pyramid::ConstrainedDynamics.Pyramid)
     return GeometryBasics.Pyramid(Point(0.0,0.0,-h/4), h, w)
 end
 
+
 function convertshape(mesh::ConstrainedDynamics.Mesh)
-    return MeshCat.MeshFileGeometry(mesh.path)
+    obj = MeshFileObject(mesh.path)
+    if obj.mtl_library == "" # no material file (mtl) available -> render as geometry with uniform color
+        return MeshFileGeometry(obj.contents, obj.format)
+    end
+    return obj
 end
 
 function convertshape(::ConstrainedDynamics.EmptyShape)
