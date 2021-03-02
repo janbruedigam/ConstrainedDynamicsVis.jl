@@ -20,6 +20,15 @@ function preparevis!(storage::Storage{T,N}, id, shape, animation, shapevisualize
     return
 end
 
+"""
+    visualize(mechanism, storage; env, showframes)
+
+Visualize a `mechanism` with a trajectory stored in `storage`.
+
+# Available kwargs
+* `showframes`: Display the coordinate frames of the bodies.
+* `env`:        Choose the visualization environment ("blink", "browser", "editor").
+"""
 function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}; env::String = "blink", showframes::Bool = false) where {T,N}
     storage = deepcopy(storage) 
     bodies = mechanism.bodies
