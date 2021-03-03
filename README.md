@@ -5,4 +5,4 @@
 
 **ConstrainedDynamicsVis** is a visualizer for the rigid body dynamics package [ConstrainedDynamics](https://github.com/janbruedigam/ConstrainedDynamics.jl). It is built on top of [MeshCat](https://github.com/rdeits/MeshCat.jl) and provides an easy to use interface.
 
-![example](https://user-images.githubusercontent.com/46260565/93859519-040a6f80-fcbe-11ea-8c97-77131a6bdc36.png)
+![example](https://user-images.githubusercontent.com/46260565/109821004-d3980b80-7c35-11eb-8192-92bcfcb96d71.png)
