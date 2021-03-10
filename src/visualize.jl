@@ -115,6 +115,13 @@ function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}; env::Str
         subvisshape = vis["bodies/origin:"*string(id)]
         setobject!(subvisshape,visshape,shape)
         shapetransform = transform(szeros(T,3), one(UnitQuaternion{T}), shape)
+        # TODO scaling bug in MeshCat also scales orientation
+        if typeof(visshape) <: ConstrainedDynamics.Mesh
+            scale_transform = LinearMap(diagm(shape.scale))
+            shapetransform = compose(transform(szeros(T,3), one(UnitQuaternion{T}), shape), scale_transform)
+        else
+            shapetransform = transform(szeros(T,3), one(UnitQuaternion{T}), shape)
+        end
         settransform!(subvisshape, shapetransform)
     end
     if showframes
