@@ -1,5 +1,6 @@
 module ConstrainedDynamicsVis
 
+using LinearAlgebra
 using ConstrainedDynamics
 using ConstrainedDynamics: AbstractMechanism, Shape, vrotate, getid
 

@@ -1,23 +1,50 @@
+function transform(x, q, shape)
+    x_transform = Translation(x + vrotate(shape.xoffset, q))
+    q_transform = LinearMap(q * shape.qoffset)
+
+    return compose(x_transform, q_transform)
+end
+function transform(x, q, shape::ConstrainedDynamics.Mesh)
+    scale_transform = LinearMap(diagm(shape.scale))
+    x_transform = Translation(x + vrotate(shape.xoffset, q))
+    q_transform = LinearMap(q * shape.qoffset)
+
+    return compose(x_transform, q_transform, scale_transform)
+end
+
 function preparevis!(storage::Storage{T,N}, id, shape, animation, shapevisualizer, framevisualizer, showshape, showframes) where {T,N}
     if showshape
         for i=1:N
-            shapecomposition = compose(Translation(storage.x[id][i] + vrotate(shape.xoffset, storage.q[id][i])),LinearMap(storage.q[id][i] * shape.qoffset))
+            shapetransform = transform(storage.x[id][i], storage.q[id][i], shape) 
             atframe(animation, i) do
-                settransform!(shapevisualizer, shapecomposition)
+                settransform!(shapevisualizer, shapetransform)
             end
         end
     end
 
     if showframes
         for i=1:N
-            framecomposition = compose(Translation(storage.x[id][i]),LinearMap(storage.q[id][i]))
+            frametransform = compose(Translation(storage.x[id][i]),LinearMap(storage.q[id][i]))
             atframe(animation, i) do
-                settransform!(framevisualizer, framecomposition)
+                settransform!(framevisualizer, frametransform)
             end
         end
     end
 
     return
+end
+
+function MeshCat.setobject!(subvisshape, visshape, shape::Shape)
+    setobject!(subvisshape, visshape, MeshPhongMaterial(color=shape.color))
+end
+
+function MeshCat.setobject!(subvisshape, visshape, shape::ConstrainedDynamics.Mesh)
+    if visshape.mtl_library == ""
+        visshape = MeshFileGeometry(visshape.contents, visshape.format)
+        setobject!(subvisshape, visshape, MeshPhongMaterial(color=shape.color))
+    else
+        setobject!(subvisshape, visshape)
+    end
 end
 
 """
@@ -65,15 +92,7 @@ function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}; env::Str
         showshape = false
         if visshape !== nothing
             subvisshape = vis["bodies/body:"*string(id)]
-            if typeof(visshape) <: MeshFileObject
-                setobject!(subvisshape, visshape)
-            else
-                setobject!(subvisshape, visshape, MeshPhongMaterial(color=shape.color))
-            end
-            if typeof(shape) <: ConstrainedDynamics.Mesh
-                scale_transform = LinearMap([shape.scale[1] 0 0;0 shape.scale[2] 0;0 0 shape.scale[3]])
-                settransform!(subvisshape, scale_transform)
-            end
+            setobject!(subvisshape,visshape,shape)
             showshape = true
         end
         if showframes
@@ -88,19 +107,9 @@ function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}; env::Str
     visshape = convertshape(shape)
     if visshape !== nothing
         subvisshape = vis["bodies/origin:"*string(id)]
-        if typeof(visshape) <: MeshFileObject
-            setobject!(subvisshape, visshape)
-        else
-            setobject!(subvisshape, visshape, MeshPhongMaterial(color=shape.color))
-        end
-        if typeof(shape) <: ConstrainedDynamics.Mesh
-            scale_transform = LinearMap([shape.scale[1] 0 0;0 shape.scale[2] 0;0 0 shape.scale[3]]) 
-            transform = compose(Translation(shape.xoffset),compose(LinearMap(shape.qoffset), scale_transform))
-        else    
-            transform = compose(Translation(shape.xoffset),LinearMap(shape.qoffset))
-        end
-        
-        settransform!(subvisshape, transform)
+        setobject!(subvisshape,visshape,shape)
+        shapetransform = transform(szeros(T,3), one(UnitQuaternion{T}), shape)
+        settransform!(subvisshape, shapetransform)
     end
     if showframes
         subvisframe = vis["frames/origin:"*string(id)]
