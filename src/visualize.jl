@@ -20,9 +20,9 @@ function preparevis!(storage::Storage{T,N}, id, shape, animation, shapevisualize
                 settransform!(shapevisualizer, shapetransform)
                 # TODO scaling bug in MeshCat also scales orientation
                 if typeof(shape) <: ConstrainedDynamics.Mesh
-                    clip = getclip!(animation, shapevisualizer.path)
+                    clip = MeshCat.getclip!(animation, shapevisualizer.path)
                     scale_transform = LinearMap(diagm(shape.scale))
-                    MeshCat._setprop!(clip, i, "scale", "vector3", js_scaling(tform))
+                    MeshCat._setprop!(clip, i, "scale", "vector3", MeshCat.js_scaling(scale_transform))
                 end
             end
         end
