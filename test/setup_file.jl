@@ -7,7 +7,7 @@ boxtemplate = Box(rand(4)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffs
 cylindertemplate = Cylinder(rand(3)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(UnitQuaternion))
 spheretemplate = Sphere(rand(2)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(UnitQuaternion))
 pyramidtemplate = Pyramid(rand(3)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(UnitQuaternion))
-meshtemplate = Mesh("test_files/test.obj", rand(), rand(3,3); color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(UnitQuaternion))
+meshtemplate = Mesh("test_files/test.obj", rand(), rand(3,3); color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(UnitQuaternion), scale = ones(3)*rand())
 
 
 originbox = Origin(deepcopy(boxtemplate))
