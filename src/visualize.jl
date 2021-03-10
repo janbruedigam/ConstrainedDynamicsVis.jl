@@ -1,3 +1,5 @@
+
+
 function preparevis!(storage::Storage{T,N}, id, shape, animation, shapevisualizer, framevisualizer, showshape, showframes) where {T,N}
     if showshape
         for i=1:N
@@ -18,6 +20,19 @@ function preparevis!(storage::Storage{T,N}, id, shape, animation, shapevisualize
     end
 
     return
+end
+
+function MeshCat.setobject!(subvisshape, visshape, shape::Shape)
+    setobject!(subvisshape, visshape, MeshPhongMaterial(color=shape.color))
+end
+
+function MeshCat.setobject!(subvisshape, visshape, shape::ConstrainedDynamics.Mesh)
+    if visshape.mtl_library == ""
+        visshape = MeshFileGeometry(visshape.contents, visshape.format)
+        setobject!(subvisshape, visshape, MeshPhongMaterial(color=shape.color))
+    else
+        setobject!(subvisshape, visshape)
+    end
 end
 
 """
@@ -65,11 +80,7 @@ function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}; env::Str
         showshape = false
         if visshape !== nothing
             subvisshape = vis["bodies/body:"*string(id)]
-            if typeof(visshape) <: MeshFileObject
-                setobject!(subvisshape, visshape)
-            else
-                setobject!(subvisshape, visshape, MeshPhongMaterial(color=shape.color))
-            end
+            setobject!(subvisshape,visshape,shape)
             if typeof(shape) <: ConstrainedDynamics.Mesh
                 scale_transform = LinearMap([shape.scale[1] 0 0;0 shape.scale[2] 0;0 0 shape.scale[3]])
                 settransform!(subvisshape, scale_transform)
@@ -88,11 +99,7 @@ function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}; env::Str
     visshape = convertshape(shape)
     if visshape !== nothing
         subvisshape = vis["bodies/origin:"*string(id)]
-        if typeof(visshape) <: MeshFileObject
-            setobject!(subvisshape, visshape)
-        else
-            setobject!(subvisshape, visshape, MeshPhongMaterial(color=shape.color))
-        end
+        setobject!(subvisshape,visshape,shape)
         if typeof(shape) <: ConstrainedDynamics.Mesh
             scale_transform = LinearMap([shape.scale[1] 0 0;0 shape.scale[2] 0;0 0 shape.scale[3]]) 
             transform = compose(Translation(shape.xoffset),compose(LinearMap(shape.qoffset), scale_transform))
