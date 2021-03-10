@@ -4,13 +4,13 @@ function transform(x, q, shape)
 
     return compose(x_transform, q_transform)
 end
-function transform(x, q, shape::ConstrainedDynamics.Mesh)
-    scale_transform = LinearMap(diagm(shape.scale))
-    x_transform = Translation(x + vrotate(shape.xoffset, q))
-    q_transform = LinearMap(q * shape.qoffset)
+# function transform(x, q, shape::ConstrainedDynamics.Mesh)
+#     scale_transform = LinearMap(diagm(shape.scale))
+#     x_transform = Translation(x + vrotate(shape.xoffset, q))
+#     q_transform = LinearMap(q * shape.qoffset)
 
-    return compose(x_transform, q_transform, scale_transform)
-end
+#     return compose(x_transform, q_transform, scale_transform)
+# end
 
 function preparevis!(storage::Storage{T,N}, id, shape, animation, shapevisualizer, framevisualizer, showshape, showframes) where {T,N}
     if showshape
@@ -18,6 +18,12 @@ function preparevis!(storage::Storage{T,N}, id, shape, animation, shapevisualize
             shapetransform = transform(storage.x[id][i], storage.q[id][i], shape) 
             atframe(animation, i) do
                 settransform!(shapevisualizer, shapetransform)
+                # TODO scaling bug in MeshCat also scales orientation
+                if typeof(shape) <: ConstrainedDynamics.Mesh
+                    clip = getclip!(animation, shapevisualizer.path)
+                    scale_transform = LinearMap(diagm(shape.scale))
+                    MeshCat._setprop!(clip, i, "scale", "vector3", js_scaling(tform))
+                end
             end
         end
     end
