@@ -1,6 +1,5 @@
 using ConstrainedDynamics
 using ConstrainedDynamicsVis
-using Rotations
 import MeshCat
 
 boxtemplate = Box(rand(4)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(UnitQuaternion))
