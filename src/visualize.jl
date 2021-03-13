@@ -12,21 +12,34 @@ function transform(x, q, shape::ConstrainedDynamics.Mesh)
     return compose(x_transform, q_transform, scale_transform)
 end
 
+getscale(shape::Shape{T}) where T = SA{T}[1;1;1]
+getscale(shape::ConstrainedDynamics.Mesh) = shape.scale
+MeshCat.js_scaling(s::AbstractVector) = s
+MeshCat.js_position(p::AbstractVector) = p
+
 function preparevis!(storage::Storage{T,N}, id, shape, animation, shapevisualizer, framevisualizer, showshape, showframes) where {T,N}
     if showshape
         for i=1:N
-            shapetransform = transform(storage.x[id][i], storage.q[id][i], shape) 
+            x = storage.x[id][i]
+            q = storage.q[id][i]
+            # TODO currently setting props directly because MeshCat/Rotations doesn't convert scaled rotation properly.
+            # If this changes, do similarily to origin
             atframe(animation, i) do
-                settransform!(shapevisualizer, shapetransform)
+                setprop!(shapevisualizer, "scale", js_scaling(getscale(shape)))
+                setprop!(shapevisualizer, "position", js_position(x + vrotate(shape.xoffset, q)))
+                setprop!(shapevisualizer, "quaternion", js_quaternion(q * shape.qoffset))
             end
         end
     end
 
     if showframes
         for i=1:N
-            frametransform = compose(Translation(storage.x[id][i]),LinearMap(storage.q[id][i]))
+            x = storage.x[id][i]
+            q = storage.q[id][i]
             atframe(animation, i) do
-                settransform!(framevisualizer, frametransform)
+                setprop!(framevisualizer, "scale", js_scaling(SA{T}[1;1;1]))
+                setprop!(framevisualizer, "position", js_position(x))
+                setprop!(framevisualizer, "quaternion", js_quaternion(q))
             end
         end
     end
