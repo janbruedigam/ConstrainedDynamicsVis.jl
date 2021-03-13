@@ -15,7 +15,7 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
 Blink = "<0.12.4, 0.12.4"
-ConstrainedDynamics = "0.7.0 - 0.7.2, 0.7.3"
+ConstrainedDynamics = "0.7.4"
 CoordinateTransformations = "<0.6.1, 0.6.1"
 DocStringExtensions = "<0.8.3, 0.8.3"
 GeometryBasics = "<0.3.11, 0.3.11"
