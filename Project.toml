@@ -1,7 +1,7 @@
 name = "ConstrainedDynamicsVis"
 uuid = "07ee0992-da0a-4409-aa8f-e0a0c9c09c30"
 authors = ["Jan Bruedigam"]
-version = "0.4.0"
+version = "0.5.0"
 
 [deps]
 Blink = "ad839575-38b3-5650-b840-f874b8c74a25"
