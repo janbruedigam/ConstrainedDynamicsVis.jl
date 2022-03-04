@@ -113,7 +113,7 @@ function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}; env::Str
     if visshape !== nothing
         subvisshape = vis["bodies/origin:"*string(id)]
         setobject!(subvisshape,visshape,shape)
-        shapetransform = transform(szeros(T,3), one(UnitQuaternion{T}), shape)
+        shapetransform = transform(szeros(T,3), one(QuatRotation{T}), shape)
         settransform!(subvisshape, shapetransform)
     end
     if showframes
