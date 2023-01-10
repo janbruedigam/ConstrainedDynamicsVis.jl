@@ -3,7 +3,7 @@ module ConstrainedDynamicsVis
 using LinearAlgebra
 using StaticArrays
 using ConstrainedDynamics
-using ConstrainedDynamics: AbstractMechanism, Shape, vrotate, getid
+using ConstrainedDynamics: AbstractMechanism, Shape, vrotate, getid, VLmat, RᵀVᵀmat
 
 using CoordinateTransformations
 using GeometryBasics: GeometryBasics, Point, Vec

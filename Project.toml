@@ -4,29 +4,33 @@ authors = ["Jan Bruedigam"]
 version = "0.5.0"
 
 [deps]
+BinDeps = "9e28174c-4ba2-5203-b857-d8d62c4213ee"
 Blink = "ad839575-38b3-5650-b840-f874b8c74a25"
 ConstrainedDynamics = "65b0d8a9-e9fd-4f02-8653-a7163c490b26"
 CoordinateTransformations = "150eb455-5306-5404-9cee-2592286d6298"
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
+FFMPEG = "c87230d0-a227-11e9-1b43-d7ebe4e7570a"
 GeometryBasics = "5c1252a2-5f33-56bf-86c9-59e7332b4326"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 MeshCat = "283c5d60-a78f-5afe-a0af-af636b173e11"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
+BinDeps = "<1.0, 1.0"
 Blink = "<0.12.5, 0.12.5"
 ConstrainedDynamics = "0.8.0"
 CoordinateTransformations = "<0.6.2, 0.6.2"
 DocStringExtensions = "<0.8.6, 0.8.6"
 GeometryBasics = "<0.4.2, 0.4.2"
 MeshCat = "0.14.0"
-StaticArrays = "0.12, 1.0"
+StaticArrays = "1.0, 1.5"
 julia = "1.6, 1.7"
 
 [extras]
 MeshCat = "283c5d60-a78f-5afe-a0af-af636b173e11"
+Rotations = "6038ab10-8711-5258-84ad-4b1120ba62dc"
 SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test", "MeshCat", "SafeTestsets"]
+test = ["Test", "MeshCat", "Rotations", "SafeTestsets"]

@@ -1,13 +1,15 @@
 function transform(x, q, shape)
     scale_transform = LinearMap(diagm(shape.scale))
     x_transform = Translation(x + vrotate(shape.xoffset, q))
-    q_transform = LinearMap(q * shape.qoffset)
+    qt = q * shape.qoffset
+    q_transform = LinearMap(VLmat(qt)*RᵀVᵀmat(qt))
 
     return compose(x_transform, q_transform, scale_transform)
 end
 
 MeshCat.js_scaling(s::AbstractVector) = s
 MeshCat.js_position(p::AbstractVector) = p
+MeshCat.js_quaternion(q::Quaternion) = [q.v1, q.v2, q.v3, q.s]
 
 function preparevis!(storage::Storage{T,N}, id, shape, animation, shapevisualizer, framevisualizer, showshape, showframes) where {T,N}
     if showshape
@@ -113,7 +115,7 @@ function visualize(mechanism::AbstractMechanism, storage::Storage{T,N}; env::Str
     if visshape !== nothing
         subvisshape = vis["bodies/origin:"*string(id)]
         setobject!(subvisshape,visshape,shape)
-        shapetransform = transform(szeros(T,3), one(QuatRotation{T}), shape)
+        shapetransform = transform(szeros(T,3), one(Quaternion{T}), shape)
         settransform!(subvisshape, shapetransform)
     end
     if showframes
