@@ -1,7 +1,7 @@
 name = "ConstrainedDynamicsVis"
 uuid = "07ee0992-da0a-4409-aa8f-e0a0c9c09c30"
 authors = ["Jan Bruedigam"]
-version = "0.5.0"
+version = "0.6.0"
 
 [deps]
 BinDeps = "9e28174c-4ba2-5203-b857-d8d62c4213ee"
