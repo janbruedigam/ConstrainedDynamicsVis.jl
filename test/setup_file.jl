@@ -1,12 +1,13 @@
 using ConstrainedDynamics
+using Rotations
 using ConstrainedDynamicsVis
 import MeshCat
 
-boxtemplate = Box(rand(4)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(QuatRotation))
-cylindertemplate = Cylinder(rand(3)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(QuatRotation))
-spheretemplate = Sphere(rand(2)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(QuatRotation))
-pyramidtemplate = Pyramid(rand(3)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(QuatRotation))
-meshtemplate = Mesh("test_files/test.obj", rand(), rand(3,3); color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(QuatRotation), scale = ones(3)*rand())
+boxtemplate = Box(rand(4)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(QuatRotation).q)
+cylindertemplate = Cylinder(rand(3)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(QuatRotation).q)
+spheretemplate = Sphere(rand(2)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(QuatRotation).q)
+pyramidtemplate = Pyramid(rand(3)...; color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(QuatRotation).q)
+meshtemplate = Mesh("test_files/test.obj", rand(), rand(3,3); color = RGBA(rand(4)...), xoffset = rand(3), qoffset = rand(QuatRotation).q, scale = ones(3)*rand())
 
 
 originbox = Origin(deepcopy(boxtemplate))
