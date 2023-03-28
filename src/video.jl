@@ -16,7 +16,7 @@ function convertvideo(file; pathout::String=splitdir(file)[1], filenameout::Stri
     return
 end
 
-# Fix for Windows video creation
+# # Fix for Windows video creation
 # function convert_frames_to_video(tar_file_path::AbstractString, output_path::AbstractString="output.mp4"; framerate=60, overwrite=false)
 #     output_path = abspath(output_path)
 #     if !isfile(tar_file_path)
